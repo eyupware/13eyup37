@@ -1,36 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eyup Yıldırım - Artist</title>
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yanak check payment page</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function validateInput(event) {
+            const keyCode = event.which ? event.which : event.keyCode;
+            if (keyCode < 48 || keyCode > 57) {
+                event.preventDefault();
+            }
+        }
+
+        function formatExpiryDate(event) {
+            const input = event.target;
+            let value = input.value.replace(/[^0-9]/g, '');
+            if (value.length > 2) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4);
+            }
+            input.value = value;
+        }
+
+        function showMessage(event) {
+            event.preventDefault();
+            const amount = document.getElementById("amount").value;
+            const currency = document.getElementById("currency").value;
+            window.location.href = `payment_success.html?amount=${amount}&currency=${currency}`;
+        }
+    </script>
 </head>
 <body>
-<header>
-  <div class="container">
-    <h1>Eyup Yıldırım - Artist</h1>
-  </div>
-</header>
-<main>
-  <div class="container">
-    <div class="profile">
-      <img src="https://cdn.discordapp.com/attachments/1208562999250386995/1236412873278750850/OIG4.CSxr9z.jpeg?ex=6637eab8&is=66369938&hm=abbbf2b4e6447d77816979549a3fc683f75de817473ec571b40e7df2bbe0f32f&" alt="Profil Resmi">
-      <h2>Eyup Yıldırım (a.k.a eyupcontact)</h2>
-      <div class="social-links">
-        <a href="https://open.spotify.com/artist/10UlDlYbvNiKea8m21u0ax" target="_blank">Spotify Link</a>
-        <a href="https://www.instagram.com/_eyupyld/" target="_blank">Instagram Link</a>
-      </div>
-      <p>For Contact:</p>
-      <p>Email: x/p>
+    <div class="container">
+        <h1>Credit Card Payment</h1>
+        <form onsubmit="showMessage(event);">
+            <div class="input-group">
+                <label for="cardType">Card Type</label>
+                <div id="cardType" class="card-icons">
+                    <input type="radio" id="visa" name="cardType" value="visa" required>
+                    <label for="visa"><img src="https://img.icons8.com/color/48/000000/visa.png" alt="Visa"></label>
+                    <input type="radio" id="mastercard" name="cardType" value="mastercard" required>
+                    <label for="mastercard"><img src="https://img.icons8.com/color/48/000000/mastercard.png" alt="Mastercard"></label>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="cardName">Cardholder Name</label>
+                <input type="text" id="cardName" name="cardName" required>
+            </div>
+            <div class="input-group">
+                <label for="cardNumber">Card Number</label>
+                <input type="text" id="cardNumber" name="cardNumber" maxlength="16" onkeypress="validateInput(event)" required>
+            </div>
+            <div class="input-group">
+                <label for="expiryDate">Expiry Date</label>
+                <input type="text" id="expiryDate" name="expiryDate" maxlength="5" placeholder="MM/YY" oninput="formatExpiryDate(event)" onkeypress="validateInput(event)" required>
+            </div>
+            <div class="input-group">
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" name="cvv" maxlength="3" onkeypress="validateInput(event)" required>
+            </div>
+            <div class="input-group">
+                <label for="amount">Amount</label>
+                <input type="number" id="amount" name="amount" min="0" max="100" required>
+            </div>
+            <div class="input-group">
+                <label for="currency">Currency</label>
+                <select id="currency" name="currency" required>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="JPY">JPY</option>
+                    <option value="TRY">TRY</option>
+                    <option value="AUD">AUD</option>
+                    <option value="CAD">CAD</option>
+                    <option value="CHF">CHF</option>
+                    <option value="CNY">CNY</option>
+                    <option value="SEK">SEK</option>
+                    <option value="NZD">NZD</option>
+
+                </select>
+            </div>
+            <button type="submit">Pay</button>
+        </form>
     </div>
-  </div>
-</main>
-<footer>
-  <div class="container">
-    <p>Copyright © 2024 Eyup Yıldırım</p>
-  </div>
-</footer>
-<script src="script.js"></script>
 </body>
 </html>
